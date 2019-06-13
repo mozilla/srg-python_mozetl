@@ -23,16 +23,13 @@ RUN apt-get update && \
     libsqlite3-dev libssl-dev locales make software-properties-common unzip \
     vim wget zlib1g-dev
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash && apt-get install -y nodejs && apt-get clean
-
-RUN rm -rf /var/lib/apt/lists/*
-
-RUN update-locale LANG=C.UTF-8
-
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash && apt-get install -y nodejs && apt-get clean && \
+rm -rf /var/lib/apt/lists/* && \
+update-locale LANG=C.UTF-8
 
 # Install Java8
-RUN wget --quiet https://github.com/frekele/oracle-java/releases/download/8u212-b10/jdk-8u212-linux-x64.tar.gz -O /tmp/jdk-8u212-linux-x64.tar.gz
-RUN wget --quiet https://raw.githubusercontent.com/crankycoder/install-java/master/install-java.sh -O /tmp/install-java.sh
+RUN wget --quiet https://github.com/mozilla/srg-python_mozetl/releases/download/0.1/jdk-8u212-linux-x64.tar.gz -O /tmp/jdk-8u212-linux-x64.tar.gz
+RUN wget --quiet https://raw.githubusercontent.com/mozilla/srg-python_mozetl/master/install-java.sh -O /tmp/install-java.sh
 RUN chmod +x /tmp/install-java.sh && /tmp/install-java.sh -f /tmp/jdk-8u212-linux-x64.tar.gz
 
 # Set default user
@@ -46,16 +43,14 @@ ENV HOME  /app
 ENV PYENV_ROOT $HOME/.pyenv
 ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
-RUN pyenv install 3.5.7
-RUN pyenv rehash
+RUN echo 'export PYENV_ROOT="$HOME/.pyenv"' >> /app/.bashrc && \
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> /app/.bashrc && \
+echo 'eval "$(pyenv init -)"' >> /app/.bashrc && \
+echo 'export PYENV_VIRTUALENV_DISABLE_PROMPT=1' >> /app/.bashrc && \
+echo 'export LC_ALL=C.UTF-8' >> /app/.bashrc && \
+echo 'export LANG=C.UTF-8' >> /app/.bashrc
 
-# Install pyenv virtualenv
-RUN git clone https://github.com/pyenv/pyenv-virtualenv.git $PYENV_ROOT/plugins/pyenv-virtualenv
-
-RUN echo 'export PYENV_ROOT="$HOME/.pyenv"' >> /app/.bashrc
-RUN echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> /app/.bashrc
-RUN echo 'eval "$(pyenv init -)"' >> /app/.bashrc
-
-# Setup locale for Python/Java bridge
-RUN echo 'export LC_ALL=C.UTF-8' >> /app/.bashrc
-RUN echo 'export LANG=C.UTF-8' >> /app/.bashrc
+RUN wget --quiet https://raw.githubusercontent.com/mozilla/srg-python_mozetl/master/etl-requirements.txt -O /tmp/requirements.txt && \
+pyenv install 3.5.7 && pyenv global 3.5.7 && \
+pip install --upgrade pip && \
+pip install -r /tmp/requirements.txt

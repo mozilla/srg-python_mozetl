@@ -17,5 +17,12 @@ host machine's IP address for en0
 The default user is 'app' with a password set to 'badpass' with sudo
 rights
 
-TODO: add instructions on how to use pyenv-virtualenv to setup the
-python 3.5 enviroment to run the python_mozetl testsuite
+The docker-compose.yml file specifies mount points to point to your
+source directory.
+
+My own `python_mozetl` repository is typically located at
+`/Users/vng/dev/python_mozetl`, and is made available to the container
+under `/app/src/python_mozetl`.  
+
+You will need to update the volumes entry so that the `python_mozetl`
+repository is available to the container on your machine.
