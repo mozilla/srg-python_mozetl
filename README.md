@@ -11,7 +11,7 @@ Run `make build` to build the image
 
 Run `make bash` to run bash with ~/dev/ mounted into /app/src
 
-The container has an enviroment variable set for HOST_IP which is your
+The container has an environment variable set for HOST_IP which is your
 host machine's IP address for en0
 
 The default user is 'app' with a password set to 'badpass' with sudo
