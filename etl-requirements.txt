@@ -54,7 +54,7 @@ toml==0.10.0
 tox==3.12.1
 traitlets==4.3.2
 typing==3.6.4
-ujson==1.35
+ujson==5.2.0
 urllib3==1.24.3
 virtualenv==16.6.0
 wcwidth==0.1.7
