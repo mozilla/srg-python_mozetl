@@ -34,7 +34,7 @@ ptyprocess==0.6.0
 py==1.8.0
 py4j==0.10.7
 Pygments==2.4.2
-pyspark==2.4.3
+pyspark==3.2.2
 pyspark-hyperloglog==2.1.1
 pytest==4.4.1
 pytest-cov==2.7.1
